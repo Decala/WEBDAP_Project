@@ -51,8 +51,7 @@ def open_browser():
 
 
 if __name__ == '__main__':
-    # Your file path will be different from mine. Right click main.html -> copy Path/Reference -> Absolute Path.
-    # Then replace the string below. Put r in front of the string to tell python it is a file path.
+
     threading.Timer(2.0, open_browser).start()
     # Webpage will open twice if debug = True.
 
