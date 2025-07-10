@@ -51,7 +51,6 @@ def open_browser():
 
 
 if __name__ == '__main__':
-
     threading.Timer(2.0, open_browser).start()
     # Webpage will open twice if debug = True.
 
