@@ -37,7 +37,7 @@ def create_account_identifier(account_type):
 
     last_letter = 0
     for letter in new_identifier[1:]:
-        last_letter += ord(letter)
+        last_letter += int(letter)
     last_letter = last_letter % 25
 
     new_identifier += chr(last_letter + 65)
@@ -106,16 +106,17 @@ def account_info_by_class(identifier):
     return info
 
 
-
 def quick_identifier_check(identifier):
     # Random code I wrote just to make sure my code works.
     # Can be used to validate account identifiers quickly
     if len(identifier) != 8:
+        print(len(identifier))
         return False
     last_letter = 0
     for letter in identifier[1:-1]:
-        last_letter += int(ord(letter))
+        last_letter += int(letter)
     last_letter = chr(last_letter % 25 + 65)
+    print(last_letter)
     if last_letter == identifier[-1]:
         return True
     else:
@@ -132,9 +133,10 @@ def wipe_test():
 def main():
     # For testing purposes only.
     # Do not run this file for any other purpose other than testing.
-
     wipe_test()
-    print(dict(open_db()))
+
+    print(quick_identifier_check("M513241Q"))
+
 
 
 if __name__ == "__main__":

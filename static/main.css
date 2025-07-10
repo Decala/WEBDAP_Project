@@ -1,0 +1,18 @@
+#da_title{
+    position:fixed;
+    top: 0;
+    background: #78B7C9;
+    height: 70px;
+    width: 100%;
+    padding-right: 100%;
+    border-bottom: #78B7C9 1px solid;
+    z-index: 5;
+    left:0px;
+    right:0px;
+}
+
+.cards {
+    padding-top: 70px;
+    display: flex;
+    gap: 10px;
+}
