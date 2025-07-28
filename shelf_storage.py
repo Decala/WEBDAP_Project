@@ -5,6 +5,11 @@ from Config import Config
 
 
 class Account:
+    # Class used to store data in shelf.
+    # Note that there are two ways to store information in shelf,
+    # classes (This class) being the first. (If used, use functions that end with "by_class".)
+    # lists being the second.
+    # DO NOT CROSS USE THEM
     def __init__(self, identifier, username, password, other_info):
         self.identifier = identifier
         self.username = username
@@ -14,6 +19,12 @@ class Account:
 
 def create_account_identifier(account_type):
     # Creates a brand new unique account identifier
+    # Variable: account_type
+    # Used to determine what type of account the identifier will create
+    # 0 for Member
+    # 1 for Staff
+    # 2 for Admin
+    # Returns the generated identifier
     new_identifier = ""
     if account_type in ["Member", 0]:
         new_identifier += "M"
@@ -45,7 +56,9 @@ def create_account_identifier(account_type):
 
 
 def new_account(username, password, account_type, other_information=[]):
-    # Creates a new account
+    # Creates a new user account.
+    # This function assumes Uses lists to store information in Database.
+    # Returns the identifier
     identifier = create_account_identifier(account_type)
     if identifier is False:
         print("Account Creation Failed")
@@ -61,6 +74,9 @@ def new_account(username, password, account_type, other_information=[]):
 
 
 def new_account_by_class(username, password, account_type, other_information=[]):
+    # This function assumes you are using classes as the base to store information.
+    # Creates a new user account
+    # Returns the identifier
     identifier = create_account_identifier(account_type)
     if identifier is False:
         print("Account Creation Failed")
@@ -70,6 +86,7 @@ def new_account_by_class(username, password, account_type, other_information=[])
     account_dic[identifier] = Account(identifier, username, password, other_information)
     account_shelf["Account"] = account_dic
     account_shelf.close()
+
     return identifier
 
 
@@ -79,22 +96,35 @@ def open_db():
     all_storage = shelve.open(Config.STORAGE_PATH, "c")
     if "Account" not in all_storage:
         all_storage["Account"] = {}
+
     return all_storage
+
+
+def static_db():
+    # Returns the Dic of the database.
+    # Updates to the database after calling this function will not be in this dictionary
+    db = open_db()
+    static_database = dict(db)
+    db.close()
+    return static_database
 
 
 def account_info(identifier):
     # Returns an account's information
+    # Assumes Uses lists to store information in Database.
     # If not found, returns False
-    account_shelf = open_db()
-    if identifier in account_shelf["Account"]:
-        info = account_shelf["Account"][identifier]
-    else:
-        info = False
-    account_shelf.close()
+    db = static_db()
+    try:
+        info = db["Account"][identifier]
+    except KeyError:
+        return False
     return info
 
 
 def account_info_by_class(identifier):
+    # This function assumes you are using classes as the base to store information.
+    # Returns account information with the given identifier.
+    # Returns False if account not found.
     account_shelf = open_db()
     if identifier in account_shelf["Account"]:
         user_info = account_shelf["Account"][identifier]
@@ -116,7 +146,6 @@ def quick_identifier_check(identifier):
     for letter in identifier[1:-1]:
         last_letter += int(letter)
     last_letter = chr(last_letter % 25 + 65)
-    print(last_letter)
     if last_letter == identifier[-1]:
         return True
     else:
@@ -133,10 +162,10 @@ def wipe_test():
 def main():
     # For testing purposes only.
     # Do not run this file for any other purpose other than testing.
-    wipe_test()
-
-    print(quick_identifier_check("M513241Q"))
-
+    db = dict(open_db())
+    print(db)
+    print(db["Account"])
+    print(db["Account"]["S300001E"].password)
 
 
 if __name__ == "__main__":

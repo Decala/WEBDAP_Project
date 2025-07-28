@@ -1,4 +1,5 @@
 class Services:
+    # Class used to store html service links
     all_services = []
 
     def __init__(self, name, link):
