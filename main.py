@@ -19,10 +19,14 @@ def success():
 
 @app.route('/successful/<identifier>')
 def successful(identifier):
-    #Upon successful account creation.
+    # Upon successful account creation.
 
     user_info = account_info_by_class(identifier)
-    return render_template(r"successful.html", name=user_info[0], account_no=identifier, password=user_info[1])
+    return render_template(r"successful.html",
+                           name=user_info[0],
+                           account_no=identifier,
+                           password=user_info[1],
+                           home_page=url_for("home"))
 
 
 @app.route('/register')

@@ -162,10 +162,8 @@ def wipe_test():
 def main():
     # For testing purposes only.
     # Do not run this file for any other purpose other than testing.
-    db = dict(open_db())
-    print(db)
-    print(db["Account"])
-    print(db["Account"]["S300001E"].password)
+
+    wipe_test()
 
 
 if __name__ == "__main__":
