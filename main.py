@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/success', methods=['POST', 'GET'])
 def success():
-    # Captures user input, Creates a new user account, then redirects into successful page
+    # Captures user input from register.html page. Creates a new user account, then redirects into successful page
     expected_inputs = ["nm", "pw"]
     user_input = [request.form.get(name) if request.method == 'POST' else request.args.get(name)
                   for name in expected_inputs]
@@ -25,8 +25,7 @@ def successful(identifier):
     return render_template(r"successful.html",
                            name=user_info[0],
                            account_no=identifier,
-                           password=user_info[1],
-                           home_page=url_for("home"))
+                           password=user_info[1])
 
 
 @app.route('/register')
