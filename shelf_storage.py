@@ -91,8 +91,9 @@ def new_account_by_class(username, password, account_type, other_information=[])
 
 
 def open_db():
-    # Opens up the database. Creates a fresh file if not found.
+    # Opens up the database. Creates a fresh file if not found. Returns the shelve object
     # Remember to close the database once you are done.
+    # ALEX THIS IS THE PLACE.
     all_storage = shelve.open(Config.STORAGE_PATH, "c")
     if "Account" not in all_storage:
         all_storage["Account"] = {}
