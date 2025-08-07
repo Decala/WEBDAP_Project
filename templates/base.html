@@ -10,6 +10,31 @@
     <!-- Optional: Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
+<script>
+  const sections = ['seizure', 'signs', 'response']; // Extendable
+
+  function markComplete(section) {
+    let progress = JSON.parse(localStorage.getItem('carelinkProgress')) || {};
+    progress[section] = true;
+    localStorage.setItem('carelinkProgress', JSON.stringify(progress));
+    updateProgressBar();
+  }
+
+  function updateProgressBar() {
+    const progress = JSON.parse(localStorage.getItem('carelinkProgress')) || {};
+    const completed = Object.values(progress).filter(Boolean).length;
+    const percent = Math.round((completed / sections.length) * 100);
+
+    document.querySelectorAll('.progress-bar').forEach(bar => {
+      bar.style.width = `${percent}%`;
+      bar.textContent = `${percent}%`;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateProgressBar);
+</script>
+
 <body>
 
 <!-- Navbar -->
@@ -67,3 +92,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

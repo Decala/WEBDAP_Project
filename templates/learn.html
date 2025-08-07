@@ -12,12 +12,12 @@
             <details class="d-block d-md-none mb-3">
                 <summary class="fw-bold mb-2">Progress Overview</summary>
                 <div class="progress mb-2" style="height: 20px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 60%;">60%</div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;">0%</div>
                 </div>
                 <ul class="list-unstyled small">
-                    <li><span class="badge bg-primary me-2">&nbsp;</span>Seizure Types</li>
-                    <li><span class="badge bg-secondary me-2">&nbsp;</span>Signs & Symptoms</li>
-                    <li><span class="badge bg-secondary me-2">&nbsp;</span>Responses</li>
+                    <li><span class="badge bg-secondary me-2" id="badge-seizure">&nbsp;</span>Seizure Types</li>
+                    <li><span class="badge bg-secondary me-2" id="badge-signs">&nbsp;</span>Signs & Symptoms</li>
+                    <li><span class="badge bg-secondary me-2" id="badge-response">&nbsp;</span>Responses</li>
                 </ul>
             </details>
 
@@ -25,12 +25,12 @@
             <div class="d-none d-md-block">
                 <h5>Progress</h5>
                 <div class="progress mb-2" style="height: 20px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 60%;">60%</div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;">0%</div>
                 </div>
                 <ul class="list-unstyled small">
-                    <li><span class="badge bg-primary me-2">&nbsp;</span>Seizure Types</li>
-                    <li><span class="badge bg-secondary me-2">&nbsp;</span>Signs & Symptoms</li>
-                    <li><span class="badge bg-secondary me-2">&nbsp;</span>Responses</li>
+                    <li><span class="badge bg-secondary me-2" id="badge-seizure-md">&nbsp;</span>Seizure Types</li>
+                    <li><span class="badge bg-secondary me-2" id="badge-signs-md">&nbsp;</span>Signs & Symptoms</li>
+                    <li><span class="badge bg-secondary me-2" id="badge-response-md">&nbsp;</span>Responses</li>
                 </ul>
             </div>
         </div>
@@ -50,9 +50,9 @@
                         <li>Myoclonic & Atonic Seizures</li>
                     </ul>
                     <div class="d-flex flex-column flex-md-row gap-2 mt-2">
-                        <a href="{{ url_for('video', section='seizure') }}" class="btn btn-outline-primary">Watch Video</a>
-                        <a href="/static/infographics/info1.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on seizure types">View Infographic</a>
-                        <a href="/static/infographics/interactive1.png" class="btn btn-outline-success">Interactive Cards</a>
+                        <a href="{{ url_for('video', section='seizure') }}" class="btn btn-outline-primary" onclick="markComplete('seizure')">Watch Video</a>
+                        <a href="/static/infographics/info1.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on seizure types" onclick="markComplete('seizure')">View Infographic</a>
+                        <a href="/static/infographics/interactive1.png" class="btn btn-outline-success" onclick="markComplete('seizure')">Interactive Cards</a>
                     </div>
                 </div>
             </div>
@@ -67,9 +67,9 @@
                         <li>Emotional Changes (e.g. fear)</li>
                     </ul>
                     <div class="d-flex flex-column flex-md-row gap-2 mt-2">
-                        <a href="{{ url_for('video', section='signs') }}" class="btn btn-outline-primary">Watch Video</a>
-                        <a href="/static/infographics/info2.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on signs and symptoms">View Infographic</a>
-                        <a href="/static/infographics/interactive2.png" class="btn btn-outline-success">Interactive Cards</a>
+                        <a href="{{ url_for('video', section='signs') }}" class="btn btn-outline-primary" onclick="markComplete('signs')">Watch Video</a>
+                        <a href="/static/infographics/info2.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on signs and symptoms" onclick="markComplete('signs')">View Infographic</a>
+                        <a href="/static/infographics/interactive2.png" class="btn btn-outline-success" onclick="markComplete('signs')">Interactive Cards</a>
                     </div>
                 </div>
             </div>
@@ -85,11 +85,16 @@
                         <li>What not to do</li>
                     </ul>
                     <div class="d-flex flex-column flex-md-row gap-2 mt-2">
-                        <a href="{{ url_for('video', section='response') }}" class="btn btn-outline-primary">Watch Video</a>
-                        <a href="/static/infographics/info3.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on seizure response">View Infographic</a>
-                        <a href="/static/infographics/interactive3.png" class="btn btn-outline-success">Interactive Cards</a>
+                        <a href="{{ url_for('video', section='response') }}" class="btn btn-outline-primary" onclick="markComplete('response')">Watch Video</a>
+                        <a href="/static/infographics/info3.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on seizure response" onclick="markComplete('response')">View Infographic</a>
+                        <a href="/static/infographics/interactive3.png" class="btn btn-outline-success" onclick="markComplete('response')">Interactive Cards</a>
                     </div>
                 </div>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="text-end">
+                <button onclick="localStorage.removeItem('carelinkProgress'); updateProgressBar();" class="btn btn-sm btn-warning">Reset Progress</button>
             </div>
 
         </div>
