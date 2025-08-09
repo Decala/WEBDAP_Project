@@ -6,91 +6,63 @@
 <div class="container my-4">
     <h2 class="text-center mb-4">Interactive Learning Module</h2>
 
+    <!-- Language Selector -->
+    <div class="mb-3 text-end">
+        <label for="langSelect" class="form-label me-2">Language:</label>
+        <select id="langSelect" class="form-select d-inline-block w-auto" onchange="updateVideoLinks(this.value)">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ms">Malay</option>
+            <option value="ta">Tamil</option>
+        </select>
+    </div>
+
     <div class="row">
-        <!-- Progress Sidebar (Collapsible on mobile) -->
+        <!-- Progress Sidebar -->
         <div class="col-12 col-md-3 order-1 order-md-1 mb-3">
             <details class="d-block d-md-none mb-3">
                 <summary class="fw-bold mb-2">Progress Overview</summary>
                 <div class="progress mb-2" style="height: 20px;">
                     <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;">0%</div>
                 </div>
-                <ul class="list-unstyled small">
-                    <li><span class="badge bg-secondary me-2" id="badge-seizure">&nbsp;</span>Seizure Types</li>
-                    <li><span class="badge bg-secondary me-2" id="badge-signs">&nbsp;</span>Signs & Symptoms</li>
-                    <li><span class="badge bg-secondary me-2" id="badge-response">&nbsp;</span>Responses</li>
-                </ul>
+                <ul class="list-unstyled small" id="progress-mobile"></ul>
             </details>
 
-            <!-- Visible on medium+ screens -->
             <div class="d-none d-md-block">
                 <h5>Progress</h5>
                 <div class="progress mb-2" style="height: 20px;">
                     <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;">0%</div>
                 </div>
-                <ul class="list-unstyled small">
-                    <li><span class="badge bg-secondary me-2" id="badge-seizure-md">&nbsp;</span>Seizure Types</li>
-                    <li><span class="badge bg-secondary me-2" id="badge-signs-md">&nbsp;</span>Signs & Symptoms</li>
-                    <li><span class="badge bg-secondary me-2" id="badge-response-md">&nbsp;</span>Responses</li>
-                </ul>
+                <ul class="list-unstyled small" id="progress-desktop"></ul>
             </div>
         </div>
 
-        <!-- Learning Content Area -->
+        <!-- Learning Content -->
         <div class="col-12 col-md-9 order-2 order-md-2">
 
-            <!-- Section 1 -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Seizure Types</h5>
-                    <ul>
-                        <li>Focal (Partial) Seizures</li>
-                        <li>Generalized Seizures</li>
-                        <li>Absence Seizures</li>
-                        <li>Tonic-Clonic Seizures</li>
-                        <li>Myoclonic & Atonic Seizures</li>
-                    </ul>
-                    <div class="d-flex flex-column flex-md-row gap-2 mt-2">
-                        <a href="{{ url_for('video', section='seizure') }}" class="btn btn-outline-primary" onclick="markComplete('seizure')">Watch Video</a>
-                        <a href="/static/infographics/info1.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on seizure types" onclick="markComplete('seizure')">View Infographic</a>
-                        <a href="/static/infographics/interactive1.png" class="btn btn-outline-success" onclick="markComplete('seizure')">Interactive Cards</a>
-                    </div>
-                </div>
-            </div>
+            {% set sections = [
+                {"key": "seizure", "title": "Seizure Types", "items": ["Focal (Partial) Seizures", "Generalized Seizures", "Absence Seizures", "Tonic-Clonic Seizures", "Myoclonic & Atonic Seizures"]},
+                {"key": "signs", "title": "Signs and Symptoms", "items": ["Physical Signs (e.g. convulsions)", "Sensory Signs (e.g. hallucinations)", "Emotional Changes (e.g. fear)"]},
+                {"key": "response", "title": "Responses", "items": ["What to do during a seizure", "When to call 995", "Recovery position", "What not to do"]}
+            ] %}
 
-            <!-- Section 2 -->
+            {% for section in sections %}
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Signs and Symptoms</h5>
+                    <h5 class="card-title">{{ section["title"] }}</h5>
                     <ul>
-                        <li>Physical Signs (e.g. convulsions)</li>
-                        <li>Sensory Signs (e.g. hallucinations)</li>
-                        <li>Emotional Changes (e.g. fear)</li>
+                        {% for item in section["items"] %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
                     </ul>
                     <div class="d-flex flex-column flex-md-row gap-2 mt-2">
-                        <a href="{{ url_for('video', section='signs') }}" class="btn btn-outline-primary" onclick="markComplete('signs')">Watch Video</a>
-                        <a href="/static/infographics/info2.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on signs and symptoms" onclick="markComplete('signs')">View Infographic</a>
-                        <a href="/static/infographics/interactive2.png" class="btn btn-outline-success" onclick="markComplete('signs')">Interactive Cards</a>
+                        <div class="video-links" data-section="{{ section['key'] }}"></div>
+                        <a href="/static/infographics/info_{{ section['key'] }}.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on {{ section['title'] }}" onclick="markComplete('{{ section['key'] }}')">View Infographic</a>
+                        <a href="/static/infographics/interactive_{{ section['key'] }}.png" class="btn btn-outline-success" onclick="markComplete('{{ section['key'] }}')">Interactive Cards</a>
                     </div>
                 </div>
             </div>
-
-            <!-- Section 3 -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Responses</h5>
-                    <ul>
-                        <li>What to do during a seizure</li>
-                        <li>When to call 995</li>
-                        <li>Recovery position</li>
-                        <li>What not to do</li>
-                    </ul>
-                    <div class="d-flex flex-column flex-md-row gap-2 mt-2">
-                        <a href="{{ url_for('video', section='response') }}" class="btn btn-outline-primary" onclick="markComplete('response')">Watch Video</a>
-                        <a href="/static/infographics/info3.png" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="View infographic on seizure response" onclick="markComplete('response')">View Infographic</a>
-                        <a href="/static/infographics/interactive3.png" class="btn btn-outline-success" onclick="markComplete('response')">Interactive Cards</a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
 
             <!-- Reset Button -->
             <div class="text-end">
@@ -100,4 +72,72 @@
         </div>
     </div>
 </div>
+
+<!-- JavaScript -->
+<script>
+const sectionKeys = ['seizure', 'signs', 'response'];
+const videoCounts = {
+    seizure: 2,
+    signs: 2,
+    response: 2
+};
+
+function updateVideoLinks(lang) {
+    sectionKeys.forEach(section => {
+        const container = document.querySelector(`.video-links[data-section="${section}"]`);
+        container.innerHTML = '';
+        for (let i = 1; i <= videoCounts[section]; i++) {
+            const videoPath = `/static/videos/${lang}/${section}${i}.mp4`;
+            const btn = document.createElement('a');
+            btn.href = videoPath;
+            btn.className = 'btn btn-outline-primary';
+            btn.target = '_blank';
+            btn.rel = 'noopener';
+            btn.setAttribute('aria-label', `Watch ${section} video ${i} in ${lang}`);
+            btn.textContent = `Video ${i}`;
+            btn.onclick = () => markComplete(section);
+            container.appendChild(btn);
+        }
+    });
+}
+
+function markComplete(section) {
+    const progress = JSON.parse(localStorage.getItem('carelinkProgress')) || {};
+    progress[section] = true;
+    localStorage.setItem('carelinkProgress', JSON.stringify(progress));
+    updateProgressBar();
+}
+
+function updateProgressBar() {
+    const completed = JSON.parse(localStorage.getItem('carelinkProgress')) || {};
+    const done = sectionKeys.filter(k => completed[k]).length;
+    const percent = Math.round((done / sectionKeys.length) * 100);
+    document.querySelectorAll('.progress-bar').forEach(bar => {
+        bar.style.width = percent + '%';
+        bar.textContent = percent + '%';
+    });
+
+    const mobileList = document.getElementById('progress-mobile');
+    const desktopList = document.getElementById('progress-desktop');
+    mobileList.innerHTML = '';
+    desktopList.innerHTML = '';
+    sectionKeys.forEach(key => {
+        const isDone = completed[key];
+        const badgeClass = isDone ? 'bg-success' : 'bg-secondary';
+        const badgeText = isDone ? '✓' : '&nbsp;';
+        const label = key.charAt(0).toUpperCase() + key.slice(1);
+        const itemHTML = `<li><span class="badge ${badgeClass} me-2">${badgeText}</span>${label}</li>`;
+        mobileList.innerHTML += itemHTML;
+        desktopList.innerHTML += itemHTML;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const initialLang = "{{ lang | default('en') }}";
+    document.getElementById('langSelect').value = initialLang;
+    updateVideoLinks(initialLang);
+    updateProgressBar();
+});
+</script>
 {% endblock %}
+
