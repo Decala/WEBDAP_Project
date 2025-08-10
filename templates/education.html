@@ -102,10 +102,10 @@
   <header>
     <nav>
       <a href="{{ url_for('home') }}">Dashboard</a>
-      <a href="#">Seizure Logger</a>
-      <a href="#">Safety Tracker</a>
+      <a href="{{ url_for('home') }}">Seizure Logger</a>
+      <a href="{{ url_for('home') }}">Safety Tracker</a>
       <a href="{{ url_for('education') }}">Education</a>
-      <a href="#">Alerts</a>
+      <a href="{{ url_for('home') }}">Alerts</a>
     </nav>
     <div>
       <button class="emergency-btn" onclick="location.href='{{ url_for('start_guide', lang=user_lang) }}'">Emergency Guide</button>
@@ -134,10 +134,7 @@
       <p>Choose a learning path to build your confidence in seizure response.</p>
     {% endif %}
 
-    <div class="xp-summary">
-      You’ve earned <strong>{{ session.get('xp', 0) }}</strong> XP so far!
-    </div>
-  </section>
+    </section>
 
   <!-- 🧠 Learning Modules -->
   <section class="module-section">
@@ -149,7 +146,7 @@
       </div>
       <div class="card">
         <h3>Quiz Challenge</h3>
-        <p>Test your knowledge and earn XP for correct answers.</p>
+        <p>Test your knowledge until you get correct answers.</p>
         <button class="start-btn" onclick="location.href='{{ url_for('quiz') }}'">Start Quiz</button>
       </div>
       <div class="card">
