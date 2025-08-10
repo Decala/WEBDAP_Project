@@ -133,6 +133,7 @@ function updateProgressBar() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // FIX: Ensure initial value matches the <option> value attribute
     const initialLang = "{{ lang | default('en') }}";
     document.getElementById('langSelect').value = initialLang;
     updateVideoLinks(initialLang);
@@ -140,4 +141,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 {% endblock %}
-
